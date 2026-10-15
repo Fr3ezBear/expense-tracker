@@ -43,9 +43,9 @@ class ExpenseTracker:
             db_add_expense(amount, category, desc, given_date)
     
             print("Expense added successfully")
-            
+
         except ValueError as e:
-            print("Adding expenses failed: %s", e)
+            logger.error("Adding expenses failed: %s", e)
 
     def delete_expense(self):
         try:
