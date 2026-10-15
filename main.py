@@ -9,7 +9,6 @@ logger = logging.getLogger(__name__)
 class ExpenseTracker:
     def __init__(self):
         init_db()
-        self.menu()
 
     def parse_date(self, text):
         try:

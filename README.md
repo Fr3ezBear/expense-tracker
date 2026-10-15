@@ -13,8 +13,7 @@ A simple command-line expense tracker built with Python and SQLite.
 
 - Python 3
 - SQLite (via the built-in `sqlite3` module)
-
-No external packages required.
+- [tabulate](https://pypi.org/project/tabulate/) for table output
 
 ## Getting Started
 
@@ -25,7 +24,13 @@ No external packages required.
    cd expense-tracker
    ```
 
-2. Run the app:
+2. Install the dependency:
+
+   ```bash
+   pip install tabulate
+   ```
+
+3. Run the app:
 
    ```bash
    python main.py
