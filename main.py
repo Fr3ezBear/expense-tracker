@@ -44,12 +44,16 @@ class ExpenseTracker:
         print("Expense added successfully")
 
     def delete_expense(self):
-        id_to_affect = int(input("Enter id to delete: "))
-        result = db_delete_expenses(id_to_affect)
-        if type(result) == str:
-            print(result)
-        else:
-            print("Expense deleted successfully")
+        try:
+            id_to_affect = int(input("Enter id to delete: "))
+            result = db_delete_expenses(id_to_affect)
+            if type(result) == str:
+                print(result)
+            else:
+                print("Expense deleted successfully")
+        except ValueError as e:
+            logger.error("Invalid input for id: %s", e)
+
 
     def total_expense(self):
         print("Total expenses:", db_total_expenses()[0])
