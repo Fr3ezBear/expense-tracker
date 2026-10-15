@@ -21,8 +21,8 @@ No external packages required.
 1. Clone the repo:
 
    ```bash
-   git clone https://github.com/Fr3ezBear/<your-repo>.git
-   cd <your-repo>
+   git clone https://github.com/Fr3ezBear/expense-tracker.git
+   cd expense-tracker
    ```
 
 2. Run the app:
