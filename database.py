@@ -4,21 +4,22 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-connection = sqlite3.connect(DB_NAME)
-cursor = connection.cursor()
+def get_connection():
+    return sqlite3.connect(DB_NAME)
 
 def init_db():
+    with get_connection() as conn:
 
-    command1 = """
-    CREATE TABLE IF NOT EXISTS expenses (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        amount REAL NOT NULL,
-        category TEXT NOT NULL,
-        description TEXT,
-        date TEXT NOT NULL
-    )"""
+        query = """
+        CREATE TABLE IF NOT EXISTS expenses (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            amount REAL NOT NULL,
+            category TEXT NOT NULL,
+            description TEXT,
+            date TEXT NOT NULL
+        )"""
 
-    cursor.execute(command1)
+        conn.execute(query)
 
 def db_add_expense(amount, category, description, date):
     if amount <= 0:
@@ -29,7 +30,7 @@ def db_add_expense(amount, category, description, date):
     VALUES (?, ?, ?, ?)"""
 
     try:
-        with connection as conn:
+        with get_connection() as conn:
             conn.execute(query, (amount, category, description, date))
         return True
     except sqlite3.Error as e:
@@ -39,7 +40,7 @@ def db_add_expense(amount, category, description, date):
 def db_list_expenses():
     query = """SELECT id, date, category, amount, description FROM expenses ORDER BY date DESC"""
     try:
-        with connection as conn:
+        with get_connection() as conn:
             val = conn.execute(query).fetchall()
             if len(val) == 0:
                 return "No expenses yet"
@@ -50,7 +51,7 @@ def db_list_expenses():
         return []
 
 def db_delete_expenses(entered_id):
-    with connection as conn:
+    with get_connection() as conn:
         check_id = """SELECT id FROM expenses WHERE id = ?"""
         if conn.execute(check_id, (entered_id,)).fetchone() == None:
             return "ID does not exist"
@@ -66,7 +67,7 @@ def db_delete_expenses(entered_id):
 def db_total_expenses():
     query = """SELECT SUM(amount) FROM expenses"""
     try:
-        with connection as conn:
+        with get_connection() as conn:
             return conn.execute(query).fetchone()
     except sqlite3.Error as e:
         logger.error("Could not get total expenses: %s", e)
