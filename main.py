@@ -28,20 +28,24 @@ class ExpenseTracker:
     def add_expense(self):
 
         print("Adding Expense: ")
-        amount = float(input("Enter amount: "))
-
-        category = input("Enter category: ")
-
-        desc = input("Enter description: ")
-
-        given_date = input("Enter date or skip to default to today: ")
-        if self.parse_date(given_date) == None:
-            given_date = date.today().isoformat()
-        else:
-            given_date = self.parse_date(given_date)
-        db_add_expense(amount, category, desc, given_date)
-
-        print("Expense added successfully")
+        try:
+            amount = float(input("Enter amount: "))
+            
+            category = input("Enter category: ")
+    
+            desc = input("Enter description: ")
+    
+            given_date = input("Enter date or skip to default to today: ")
+            if self.parse_date(given_date) == None:
+                given_date = date.today().isoformat()
+            else:
+                given_date = self.parse_date(given_date)
+            db_add_expense(amount, category, desc, given_date)
+    
+            print("Expense added successfully")
+            
+        except ValueError as e:
+            print("Adding expenses failed: %s", e)
 
     def delete_expense(self):
         try:
